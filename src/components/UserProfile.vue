@@ -10,17 +10,23 @@
             </div>
         </div>
         <div class="user-profile_twerps-wrapper">
-            <div class="user-profile_twerp" v-for="twerp in user.twerps" :key="twerp.id">
-                {{ twerp.content }}
-            </div>
+            <twerp-item v-for="twerp in user.twerps" 
+                :key="twerp.id" 
+                :username="user.username" 
+                :twerp="twerp"/>
         </div>
     </div>
 </template>
 
 <script>
+import TwerpItem from './TwerpItem';
 
 export default {
     name: 'UserProfile',
+
+    components: {
+        TwerpItem
+    },
 
     data() {
         return {
@@ -70,22 +76,17 @@ export default {
 .user-profile {
     display: grid;
     grid-template-columns: 1fr 3fr;
-    width: 100%;
+    gap: 50px;
     padding: 50px 5%;
 }
 
 .user-profile_user-panel {
     display: flex;
     flex-direction: column;
-    margin-right: 50px;
     padding: 20px;
     background-color: white;
     border-radius: 5px;
     border: 1px solid #dfe3e8;
-}
-
-h1.user-profile_username {
-    margin: 0;
 }
 
 .user-profile_admin-badge {
@@ -96,4 +97,14 @@ h1.user-profile_username {
     padding: 0 10px;
     font-weight: bold;
 }
+
+h1.user-profile_username {
+    margin: 0;
+}
+
+.user-profile_twerps-wrapper {
+    display: grid;
+    gap: 10px;
+}
+
 </style>
