@@ -1,5 +1,6 @@
 <template>
     <div class="user-profile">
+
         <div class="user-profile_user-panel">
             <h1 class="user-profile_username">@{{ user.username }}</h1>
             <div class="user-profile_admin-badge" v-if="user.isAdmin">
@@ -8,7 +9,32 @@
             <div class="user-profile_followers-count">
                 <strong>Followers :</strong> {{ followersCount }}
             </div>
+
+            <form class="user-profile_create-twerp" @submit.prevent="createNewTwerp">
+
+                <label for="newTwerp"><strong>New Twerp</strong></label>
+                <textarea name="newTwerp" id="newTwerp" rows="4" v-model="newTwerpContent"></textarea>
+                
+                <div class="user-profile_create-twerp-type">
+                    <label for="newTwerpType"><strong>Type </strong></label>
+                    <select name="newTwerpType" id="newTwerpType" v-model="selectedTwerpType">
+                        <option 
+                            v-for="(option, index) in twerpTypes" 
+                            :value="option.value"
+                            :key="index"
+                        >
+                            {{ option.name }}
+                        </option>
+                    </select>
+                
+                </div>
+
+                <button>
+                    Twerp !!
+                </button>
+            </form>
         </div>
+
         <div class="user-profile_twerps-wrapper">
             <twerp-item 
                 v-for="twerp in user.twerps" 
@@ -33,6 +59,12 @@ export default {
 
     data() {
         return {
+            newTwerpContent: '',
+            selectedTwerpType: 'instant',
+            twerpTypes: [
+                { value: 'draft', name: 'Draft'},
+                { value: 'instant', name: 'Instant Twerp'},
+            ],
             followersCount: 0,
             user: {
                 id: 1,
@@ -69,6 +101,15 @@ export default {
         },
         toggleFavourite(id) {
             console.log(`Favourited Twerp #${id}`);
+        },
+        createNewTwerp() {
+            if(this.newTwerpContent && this.selectedTwerpType !== 'draft') {
+                this.user.twerps.push({
+                    id: this.user.twerps.length + 1,
+                    content: this.newTwerpContent
+                });
+                this.newTwerpContent = '';
+            }
         }
     },
 
@@ -113,4 +154,19 @@ h1.user-profile_username {
     gap: 10px;
 }
 
+.user-profile_followers-count {
+    padding-bottom: 20px;
+}
+
+.user-profile_create-twerp {
+    border-top: 1px solid #dfe3e8;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-profile_create-twerp-type{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 </style>
