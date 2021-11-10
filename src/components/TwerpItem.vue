@@ -1,5 +1,5 @@
 <template>
-    <div class="twerp-item">
+    <div class="twerp-item" @click="favouriteTwerp(twerp.id)">
         <div class="user-profile_twerp">
             <div class="twerp-item_user">
                 @{{ username }}
@@ -23,6 +23,12 @@ export default {
         twerp: {
             type: Object,
             required: true
+        }
+    },
+
+    methods: {
+        favouriteTwerp(id) {
+            this.$emit('favourite', id);
         }
     }
 }

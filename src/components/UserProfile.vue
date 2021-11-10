@@ -10,10 +10,13 @@
             </div>
         </div>
         <div class="user-profile_twerps-wrapper">
-            <twerp-item v-for="twerp in user.twerps" 
+            <twerp-item 
+                v-for="twerp in user.twerps" 
                 :key="twerp.id" 
                 :username="user.username" 
-                :twerp="twerp"/>
+                :twerp="twerp"
+                @favourite="toggleFavourite"
+            />
         </div>
     </div>
 </template>
@@ -63,6 +66,9 @@ export default {
     methods: {
         followUser() {
             this.followersCount++;
+        },
+        toggleFavourite(id) {
+            console.log(`Favourited Twerp #${id}`);
         }
     },
 
