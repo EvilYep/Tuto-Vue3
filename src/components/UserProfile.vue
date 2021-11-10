@@ -2,6 +2,12 @@
     <div class="user-profile">
         <div class="user-profile_user-panel">
             <h1 class="user-profile_username">@{{ user.username }}</h1>
+            <div class="user-profile_admin-badge" v-if="user.isAdmin">
+                Admin
+            </div>
+            <div class="user-profile_admin-badge" v-else>
+                Not Admin
+            </div>
             <div class="user-profile_followers-count">
                 <strong>Followers :</strong> {{ followersCount }}
             </div>
@@ -23,7 +29,7 @@ export default {
                 firstName: 'Yep',
                 lastName: 'Derp',
                 email: 'yep@derp.com',
-                admin: true
+                isAdmin: true
             }
         }
     },
@@ -74,5 +80,14 @@ export default {
 
 h1.user-profile_username {
     margin: 0;
+}
+
+.user-profile_admin-badge {
+    background-color: rebeccapurple;
+    color: white;
+    border-radius: 5px;
+    margin-right: auto;
+    padding: 0 10px;
+    font-weight: bold;
 }
 </style>
