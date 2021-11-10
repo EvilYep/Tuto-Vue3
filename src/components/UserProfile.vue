@@ -5,11 +5,13 @@
             <div class="user-profile_admin-badge" v-if="user.isAdmin">
                 Admin
             </div>
-            <div class="user-profile_admin-badge" v-else>
-                Not Admin
-            </div>
             <div class="user-profile_followers-count">
                 <strong>Followers :</strong> {{ followersCount }}
+            </div>
+        </div>
+        <div class="user-profile_twerps-wrapper">
+            <div class="user-profile_twerp" v-for="twerp in user.twerps" :key="twerp.id">
+                {{ twerp.content }}
             </div>
         </div>
     </div>
@@ -29,7 +31,11 @@ export default {
                 firstName: 'Yep',
                 lastName: 'Derp',
                 email: 'yep@derp.com',
-                isAdmin: true
+                isAdmin: true,
+                twerps: [
+                    { id: 1, content: 'You know what ?' },
+                    { id: 2, content: 'I am Happy !' },
+                ]
             }
         }
     },
