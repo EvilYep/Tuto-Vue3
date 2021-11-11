@@ -119,54 +119,54 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .user-profile {
     display: grid;
     grid-template-columns: 1fr 3fr;
     gap: 50px;
     padding: 50px 5%;
-}
 
-.user-profile_user-panel {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    background-color: white;
-    border-radius: 5px;
-    border: 1px solid #dfe3e8;
-}
+    .user-profile_user-panel {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background-color: white;
+        border-radius: 5px;
+        border: 1px solid #dfe3e8;
 
-.user-profile_admin-badge {
-    background-color: rebeccapurple;
-    color: white;
-    border-radius: 5px;
-    margin-right: auto;
-    padding: 0 10px;
-    font-weight: bold;
-}
+        h1 {
+            margin: 0;
+        }
 
-h1.user-profile_username {
-    margin: 0;
-}
+        .user-profile_admin-badge {
+            background-color: rebeccapurple;
+            color: white;
+            border-radius: 5px;
+            margin-right: auto;
+            padding: 0 10px;
+            font-weight: bold;
+        }
 
-.user-profile_twerps-wrapper {
-    display: grid;
-    gap: 10px;
-}
+        .user-profile_followers-count {
+            padding-bottom: 20px;
+        }
 
-.user-profile_followers-count {
-    padding-bottom: 20px;
-}
+        .user-profile_create-twerp {
+            border-top: 1px solid #dfe3e8;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
 
-.user-profile_create-twerp {
-    border-top: 1px solid #dfe3e8;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-}
+            .user-profile_create-twerp-type{
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+        }
+    }
 
-.user-profile_create-twerp-type{
-    padding-top: 5px;
-    padding-bottom: 5px;
+    .user-profile_twerps-wrapper {
+        display: grid;
+        gap: 10px;
+    }
 }
 </style>
