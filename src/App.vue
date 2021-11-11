@@ -1,5 +1,13 @@
 <template>
     <div id="main">
+        <nav>
+            <div class="navigation_logo">
+                Twerp
+            </div>
+            <div class="navigation_user">
+                {{ user.username }}
+            </div>
+        </nav>
         <user-profile/>
     </div>
 </template>
@@ -12,13 +20,26 @@ export default {
 
     components: {
         UserProfile
+    },
+
+    data() {
+        return {
+            user: {
+                username: '_Yep'
+            }
+        }
     }
 };
 </script>
 
-<style>
+<style lang="scss">
 body {
     margin: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 #main {
@@ -27,6 +48,24 @@ body {
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
     min-height: 100vh;
-    background-color: #f3f5fa;
+    background-color: #F3F5FA;
+
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 5%;
+        background-color: deeppink;
+        color: white;
+
+        .navigation_logo {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .navigation_user {
+            font-weight: bold;
+        }
+    }
 }
 </style>

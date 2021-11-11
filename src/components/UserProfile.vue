@@ -1,40 +1,19 @@
 <template>
     <div class="user-profile">
 
-        <div class="user-profile_user-panel">
-            <h1 class="user-profile_username">@{{ user.username }}</h1>
-            <div class="user-profile_admin-badge" v-if="user.isAdmin">
-                Admin
-            </div>
-            <div class="user-profile_followers-count">
-                <strong>Followers :</strong> {{ followersCount }}
-            </div>
-
-            <form class="user-profile_create-twerp" 
-                @submit.prevent="createNewTwerp" 
-                :class="{ '--exceeded': newTwerpCharacterCount > 180 }">
-
-                <label for="newTwerp"><strong>New Twerp</strong> ({{ newTwerpCharacterCount }}/180)</label>
-                <textarea name="newTwerp" id="newTwerp" rows="4" v-model="newTwerpContent"></textarea>
-                
-                <div class="user-profile_create-twerp-type">
-                    <label for="newTwerpType"><strong>Type </strong></label>
-                    <select name="newTwerpType" id="newTwerpType" v-model="selectedTwerpType">
-                        <option 
-                            v-for="(option, index) in twerpTypes" 
-                            :value="option.value"
-                            :key="index"
-                        >
-                            {{ option.name }}
-                        </option>
-                    </select>
-                
+        <div class="user-profile_sidebar">
+            <div class="user-profile_user-panel">
+                <h1 class="user-profile_username">@{{ user.username }}</h1>
+                <div class="user-profile_admin-badge" v-if="user.isAdmin">
+                    Admin
                 </div>
+                <div class="user-profile_followers-count">
+                    <strong>Followers :</strong> {{ followersCount }}
+                </div>
+            </div>
 
-                <button>
-                    Twerp !!
-                </button>
-            </form>
+            <create-twerp-panel @add-twerp="addTwerp"/>
+
         </div>
 
         <div class="user-profile_twerps-wrapper">
@@ -50,23 +29,19 @@
 </template>
 
 <script>
+import CreateTwerpPanel from './CreateTwerpPanel';
 import TwerpItem from './TwerpItem';
 
 export default {
     name: 'UserProfile',
 
     components: {
-        TwerpItem
+        TwerpItem,
+        CreateTwerpPanel
     },
 
     data() {
         return {
-            newTwerpContent: '',
-            selectedTwerpType: 'instant',
-            twerpTypes: [
-                { value: 'draft', name: 'Draft'},
-                { value: 'instant', name: 'Instant Twerp'},
-            ],
             followersCount: 0,
             user: {
                 id: 1,
@@ -91,12 +66,6 @@ export default {
         }
     },
 
-    computed: {
-        newTwerpCharacterCount() {
-            return this.newTwerpContent.length;
-        }
-    },
-
     methods: {
         followUser() {
             this.followersCount++;
@@ -104,14 +73,8 @@ export default {
         toggleFavourite(id) {
             console.log(`Favourited Twerp #${id}`);
         },
-        createNewTwerp() {
-            if(this.newTwerpContent && this.selectedTwerpType !== 'draft') {
-                this.user.twerps.push({
-                    id: this.user.twerps.length + 1,
-                    content: this.newTwerpContent
-                });
-                this.newTwerpContent = '';
-            }
+        addTwerp(twerp) {
+            this.user.twerps.push({ id: this.user.twerps.length + 1, content: twerp });
         }
     },
 
@@ -151,30 +114,6 @@ export default {
 
         .user-profile_followers-count {
             padding-bottom: 20px;
-        }
-
-        .user-profile_create-twerp {
-            border-top: 1px solid #dfe3e8;
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-
-            &.--exceeded {
-                color: red;
-                border-color: red;
-                border: none;
-
-                button {
-                    background-color: red;
-                    border: none;
-                    color: white;
-                }
-            }
-
-            .user-profile_create-twerp-type{
-                padding-top: 5px;
-                padding-bottom: 5px;
-            }
         }
     }
 
