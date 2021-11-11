@@ -10,9 +10,11 @@
                 <strong>Followers :</strong> {{ followersCount }}
             </div>
 
-            <form class="user-profile_create-twerp" @submit.prevent="createNewTwerp">
+            <form class="user-profile_create-twerp" 
+                @submit.prevent="createNewTwerp" 
+                :class="{ '--exceeded': newTwerpCharacterCount > 180 }">
 
-                <label for="newTwerp"><strong>New Twerp</strong></label>
+                <label for="newTwerp"><strong>New Twerp</strong> ({{ newTwerpCharacterCount }}/180)</label>
                 <textarea name="newTwerp" id="newTwerp" rows="4" v-model="newTwerpContent"></textarea>
                 
                 <div class="user-profile_create-twerp-type">
@@ -90,8 +92,8 @@ export default {
     },
 
     computed: {
-        fullName() {
-            return `${this.user.firstName} ${this.user.lastName}`
+        newTwerpCharacterCount() {
+            return this.newTwerpContent.length;
         }
     },
 
@@ -156,6 +158,18 @@ export default {
             padding-top: 20px;
             display: flex;
             flex-direction: column;
+
+            &.--exceeded {
+                color: red;
+                border-color: red;
+                border: none;
+
+                button {
+                    background-color: red;
+                    border: none;
+                    color: white;
+                }
+            }
 
             .user-profile_create-twerp-type{
                 padding-top: 5px;
