@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from "../store";
 import { users } from "../assets/users";
+
 import Home from '../views/Home'
-import UserProfile from '../views/UserProfile'
-import Admin from '../views/Admin'
 
 const routes = [
     {
@@ -14,12 +13,12 @@ const routes = [
     {
         path: '/user/:userId',
         name: 'UserProfile',
-        component: UserProfile
+        component: () => import(/* webpackChunkName: "user-profile" */ '../views/UserProfile') // Lazy-loading these
     },
     {
         path: '/admin',
         name: 'Admin',
-        component: Admin,
+        component: () => import(/* webpackChunkName: "admin" */ '../views/Admin'),
         meta: {
             requiresAdmin: true
         }

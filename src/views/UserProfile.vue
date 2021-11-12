@@ -28,64 +28,49 @@
     </div>
 </template>
 
-<script>
+
+<script setup>
 import { onMounted, reactive, watch, computed } from "vue";
 import { useRoute } from "vue-router";
 import { users } from "../assets/users";
 import CreateTwerpPanel from '@/components/CreateTwerpPanel';
 import TwerpItem from '@/components/TwerpItem';
 
-export default {
-    name: 'UserProfile',
+const route = useRoute();
 
-    components: {
-        TwerpItem,
-        CreateTwerpPanel
-    },
+const userId = computed(() => route.params.userId);
 
-    setup() {
-        const route = useRoute();
+const state = reactive({
+    followersCount: 0,
+    user: users[userId.value - 1] || users[0]
+});
 
-        const userId = computed(() => route.params.userId);
 
-        const state = reactive({
-            followersCount: 0,
-            user: users[userId.value - 1] || users[0]
-        });
-
-        // So useful : https://www.netlify.com/blog/2021/01/29/deep-dive-into-the-vue-composition-apis-watch-method/
-        watch(() => state.followersCount, (newCount, oldCount) => {
-            if(oldCount < newCount) {
-                console.log(`${state.user.username } has gained a follower !`);
-            }
-        })
-
-        function followUser() {
-            state.followersCount++;
-        }
-
-        function toggleFavourite(id) {
-            console.log(`Favourited Twerp #${id}`);
-        }
-
-        function addTwerp(twerp) {
-            state.user.twerps.push({ id: state.user.twerps.length + 1, content: twerp });
-        }
-
-        onMounted(() => {
-            followUser();
-        })
-
-        return {
-            state,
-            followUser,
-            toggleFavourite,
-            addTwerp,
-            userId,
-        }
+// So useful : https://www.netlify.com/blog/2021/01/29/deep-dive-into-the-vue-composition-apis-watch-method/
+watch(() => state.followersCount, (newCount, oldCount) => {
+    if(oldCount < newCount) {
+        console.log(`${state.user.username } has gained a follower !`);
     }
+})
+
+function followUser() {
+    state.followersCount++;
 }
+
+function toggleFavourite(id) {
+    alert(`Favourited Twerp #${id}`);
+}
+
+function addTwerp(twerp) {
+    state.user.twerps.push({ id: state.user.twerps.length + 1, content: twerp });
+}
+
+
+onMounted(() => {
+    followUser();
+})
 </script>
+
 
 <style lang="scss" scoped>
 .user-profile {

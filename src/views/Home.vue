@@ -12,16 +12,8 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import { users } from "../assets/users";
-export default {
-    name: 'Home',
-    setup() {
-        return {
-            users
-        }
-    }
-}
 </script>
 
 <style lang="scss" scoped>

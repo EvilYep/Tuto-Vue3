@@ -27,39 +27,31 @@
     </form>
 </template>
 
-<script>
-import { reactive, computed } from 'vue';
 
-export default {
-    name: 'CreateTwerpPanel',
+<script setup>
+import { reactive, computed, defineEmits } from 'vue';
 
-    setup(props, ctx) {
-        const state = reactive({
-            newTwerpContent: '',
-            selectedTwerpType: 'instant',
-            twerpTypes: [
-                { value: 'draft', name: 'Draft'},
-                { value: 'instant', name: 'Instant Twerp'},
-            ],
-        });
+const state = reactive({
+    newTwerpContent: '',
+    selectedTwerpType: 'instant',
+    twerpTypes: [
+        { value: 'draft', name: 'Draft'},
+        { value: 'instant', name: 'Instant Twerp'},
+    ],
+});
 
-        const newTwerpCharacterCount = computed(() => state.newTwerpContent.length);
+const newTwerpCharacterCount = computed(() => state.newTwerpContent.length);
 
-        function createNewTwerp() {
-            if(state.newTwerpContent && state.selectedTwerpType !== 'draft') {
-                ctx.emit('add-twerp', state.newTwerpContent);
-                state.newTwerpContent = '';
-            }
-        }
+const emit = defineEmits(['add-twerp']);
 
-        return {
-            state,
-            newTwerpCharacterCount,
-            createNewTwerp
-        };
+function createNewTwerp() {
+    if(state.newTwerpContent && state.selectedTwerpType !== 'draft') {
+        emit('add-twerp', state.newTwerpContent);
+        state.newTwerpContent = '';
     }
 }
 </script>
+
 
 <style lang="scss" scoped>
 .create-twerp-panel {

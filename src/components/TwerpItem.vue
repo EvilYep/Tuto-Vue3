@@ -1,40 +1,34 @@
 <template>
-    <div class="twerp-item" @click="favouriteTwerp(twerp.id)">
+    <div class="twerp-item" @click="favouriteTwerp(props.twerp.id)">
         <div class="user-profile_twerp">
             <div class="twerp-item_user">
-                @{{ username }}
+                @{{ props.username }}
             </div>
             <div class="twerp-item_content">
-                {{ twerp.content }}
+                {{ props.twerp.content }}
             </div>
         </div>
     </div>
 </template>
 
-<script>
-export default {
-    name: 'TwerpItem',
+<script setup>
+import { defineProps, defineEmits } from 'vue';
 
-    props: {
-        username: {
-            type: String,
-            required: true
-        },
-        twerp: {
-            type: Object,
-            required: true
-        }
+const props = defineProps({
+    username: {
+        type: String,
+        required: true
     },
-
-    setup(props, ctx) {
-        function favouriteTwerp(id) {
-            ctx.emit('favourite', id);
-        }
-
-        return {
-            favouriteTwerp
-        }
+    twerp: {
+        type: Object,
+        required: true
     }
+});
+
+const emit = defineEmits(['favourite']);
+
+function favouriteTwerp(id) {
+    emit('favourite', id);
 }
 </script>
 
