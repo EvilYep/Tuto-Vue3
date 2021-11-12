@@ -1,13 +1,13 @@
 <template>
     <div id="main">
         <nav>
-            <router-link to="/">
+            <router-link :to="{ name: 'Home' }">
                 <div class="navigation_logo">
                     Twerp
                 </div>
             </router-link>
-            <div class="navigation_user">
-                {{ state.user.username }}
+            <div class="navigation_user" v-if="user">
+                {{ user.username }}
             </div>
         </nav>
         <router-view/>
@@ -15,20 +15,18 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
     name: "App",
 
     setup() {
-        const state = reactive({
-            user: {
-                username: '_Yep'
-            }
-        });
+        const store = useStore();
+        const user = computed(() => store.state.User.user);
 
         return {
-            state
+            user
         }
     },
 };
