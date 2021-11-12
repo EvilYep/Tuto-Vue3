@@ -29,9 +29,11 @@
 </template>
 
 <script>
-import { onMounted, reactive, watch } from "vue";
-import CreateTwerpPanel from './CreateTwerpPanel';
-import TwerpItem from './TwerpItem';
+import { onMounted, reactive, watch, computed } from "vue";
+import { useRoute } from "vue-router";
+import { users } from "../assets/users";
+import CreateTwerpPanel from '@/components/CreateTwerpPanel';
+import TwerpItem from '@/components/TwerpItem';
 
 export default {
     name: 'UserProfile',
@@ -42,20 +44,13 @@ export default {
     },
 
     setup() {
+        const route = useRoute();
+
+        const userId = computed(() => route.params.userId);
+
         const state = reactive({
             followersCount: 0,
-            user: {
-                id: 1,
-                username: '_Yep',
-                firstName: 'Yep',
-                lastName: 'Derp',
-                email: 'yep@derp.com',
-                isAdmin: true,
-                twerps: [
-                    { id: 1, content: 'You know what ?' },
-                    { id: 2, content: 'I am Happy !' },
-                ]
-            }
+            user: users[userId.value - 1] || users[0]
         });
 
         // So useful : https://www.netlify.com/blog/2021/01/29/deep-dive-into-the-vue-composition-apis-watch-method/
@@ -86,6 +81,7 @@ export default {
             followUser,
             toggleFavourite,
             addTwerp,
+            userId,
         }
     }
 }

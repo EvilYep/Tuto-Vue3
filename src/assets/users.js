@@ -18,7 +18,7 @@ export const users = [
         lastName: "Bob",
         email: 'spongebob@bikini-bottom.io',
         isAdmin: false,
-        twoots: [],
+        twerps: [],
     },
     {
         id: 3,
@@ -27,7 +27,7 @@ export const users = [
         lastName: "Wayne",
         email: 'b-wayne@gotham-city-congress.com',
         isAdmin: false,
-        twoots: [],
+        twerps: [],
     },
     {
         id: 4,
@@ -36,6 +36,6 @@ export const users = [
         lastName: "Mustaine",
         email: 'iplayfaster@thrash.rock',
         isAdmin: false,
-        twoots: [],
+        twerps: [],
     },
 ];
