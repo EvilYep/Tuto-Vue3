@@ -3,12 +3,12 @@
 
         <div class="user-profile_sidebar">
             <div class="user-profile_user-panel">
-                <h1 class="user-profile_username">@{{ user.username }}</h1>
-                <div class="user-profile_admin-badge" v-if="user.isAdmin">
+                <h1 class="user-profile_username">@{{ state.user.username }}</h1>
+                <div class="user-profile_admin-badge" v-if="state.user.isAdmin">
                     Admin
                 </div>
                 <div class="user-profile_followers-count">
-                    <strong>Followers :</strong> {{ followersCount }}
+                    <strong>Followers :</strong> {{ state.followersCount }}
                 </div>
             </div>
 
@@ -18,9 +18,9 @@
 
         <div class="user-profile_twerps-wrapper">
             <twerp-item 
-                v-for="twerp in user.twerps" 
+                v-for="twerp in state.user.twerps" 
                 :key="twerp.id" 
-                :username="user.username" 
+                :username="state.user.username" 
                 :twerp="twerp"
                 @favourite="toggleFavourite"
             />
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { onMounted, reactive, watch } from "vue";
 import CreateTwerpPanel from './CreateTwerpPanel';
 import TwerpItem from './TwerpItem';
 
@@ -40,8 +41,8 @@ export default {
         CreateTwerpPanel
     },
 
-    data() {
-        return {
+    setup() {
+        const state = reactive({
             followersCount: 0,
             user: {
                 id: 1,
@@ -55,31 +56,37 @@ export default {
                     { id: 2, content: 'I am Happy !' },
                 ]
             }
-        }
-    },
+        });
 
-    watch: {
-        followersCount(newCount, oldCount) {
+        // So useful : https://www.netlify.com/blog/2021/01/29/deep-dive-into-the-vue-composition-apis-watch-method/
+        watch(() => state.followersCount, (newCount, oldCount) => {
             if(oldCount < newCount) {
-                console.log(`${this.user.username} has gained a follower !`);
+                console.log(`${state.user.username } has gained a follower !`);
             }
-        }
-    },
+        })
 
-    methods: {
-        followUser() {
-            this.followersCount++;
-        },
-        toggleFavourite(id) {
+        function followUser() {
+            state.followersCount++;
+        }
+
+        function toggleFavourite(id) {
             console.log(`Favourited Twerp #${id}`);
-        },
-        addTwerp(twerp) {
-            this.user.twerps.push({ id: this.user.twerps.length + 1, content: twerp });
         }
-    },
 
-    mounted() {
-        this.followUser();
+        function addTwerp(twerp) {
+            state.user.twerps.push({ id: state.user.twerps.length + 1, content: twerp });
+        }
+
+        onMounted(() => {
+            followUser();
+        })
+
+        return {
+            state,
+            followUser,
+            toggleFavourite,
+            addTwerp,
+        }
     }
 }
 </script>

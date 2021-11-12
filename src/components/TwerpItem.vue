@@ -26,9 +26,13 @@ export default {
         }
     },
 
-    methods: {
-        favouriteTwerp(id) {
-            this.$emit('favourite', id);
+    setup(props, ctx) {
+        function favouriteTwerp(id) {
+            ctx.emit('favourite', id);
+        }
+
+        return {
+            favouriteTwerp
         }
     }
 }

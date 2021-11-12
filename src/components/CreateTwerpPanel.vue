@@ -4,14 +4,14 @@
         :class="{ '--exceeded': newTwerpCharacterCount > 180 }">
 
         <label for="newTwerp"><strong>New Twerp</strong> ({{ newTwerpCharacterCount }}/180)</label>
-        <textarea name="newTwerp" id="newTwerp" rows="4" v-model="newTwerpContent"></textarea>
+        <textarea name="newTwerp" id="newTwerp" rows="4" v-model="state.newTwerpContent"></textarea>
             
         <div class="create-twerp-panel_submit">
             <div class="create-twerp-type">
                 <label for="newTwerpType"><strong>Type: </strong></label>
-                <select name="newTwerpType" id="newTwerpType" v-model="selectedTwerpType">
+                <select name="newTwerpType" id="newTwerpType" v-model="state.selectedTwerpType">
                     <option 
-                        v-for="(option, index) in twerpTypes" 
+                        v-for="(option, index) in state.twerpTypes" 
                         :value="option.value"                            
                         :key="index"
                     >
@@ -28,33 +28,35 @@
 </template>
 
 <script>
+import { reactive, computed } from 'vue';
+
 export default {
     name: 'CreateTwerpPanel',
 
-    data() {
-        return {
+    setup(props, ctx) {
+        const state = reactive({
             newTwerpContent: '',
             selectedTwerpType: 'instant',
             twerpTypes: [
                 { value: 'draft', name: 'Draft'},
                 { value: 'instant', name: 'Instant Twerp'},
             ],
-        }
-    },
+        });
 
-    computed: {
-        newTwerpCharacterCount() {
-            return this.newTwerpContent.length;
-        }
-    },
+        const newTwerpCharacterCount = computed(() => state.newTwerpContent.length);
 
-    methods: {
-        createNewTwerp() {
-            if(this.newTwerpContent && this.selectedTwerpType !== 'draft') {
-                this.$emit('add-twerp', this.newTwerpContent);
-                this.newTwerpContent = '';
+        function createNewTwerp() {
+            if(state.newTwerpContent && state.selectedTwerpType !== 'draft') {
+                ctx.emit('add-twerp', state.newTwerpContent);
+                state.newTwerpContent = '';
             }
         }
+
+        return {
+            state,
+            newTwerpCharacterCount,
+            createNewTwerp
+        };
     }
 }
 </script>

@@ -5,7 +5,7 @@
                 Twerp
             </div>
             <div class="navigation_user">
-                {{ user.username }}
+                {{ state.user.username }}
             </div>
         </nav>
         <user-profile/>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { reactive } from 'vue';
 import UserProfile from './components/UserProfile'
 
 export default {
@@ -22,13 +23,17 @@ export default {
         UserProfile
     },
 
-    data() {
-        return {
+    setup() {
+        const state = reactive({
             user: {
                 username: '_Yep'
             }
+        });
+
+        return {
+            state
         }
-    }
+    },
 };
 </script>
 
